@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Creating a Countdown" />
+    <title>Creating a Countdown</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      .section-center {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f1f5f8;
+      }
+
+      .gift-img {
+        width: 300px;
+        height: 300px;
+        margin-right: 3rem;
+      }
+
+      .gift-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 5px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .gift-info {
+        max-width: 500px;
+        text-align: center;
+      }
+
+      .gift-info h3 {
+        font-size: 2rem;
+        color: #222;
+        margin-bottom: 1rem;
+      }
+
+      .giveaway {
+        color: #b62020;
+        margin-bottom: 0.5rem;
+      }
+
+      .deadline {
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
+      }
+
+      .deadline-format {
+        margin-right: 1rem;
+        background: #fff;
+        padding: 1rem 2rem;
+        border-radius: 5px;
+        box-shadow: inset -2px -2px rgba(0, 0, 0, 0.05);
+      }
+
+      .deadline-format h4 {
+        font-size: 3rem;
+        color: #b62020;
+        margin-bottom: -0.5rem;
+      }
+
+      .margin-top {
+        font-size: 1rem;
+        color: #222;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+      }
+
+      .margin-bottom {
+        margin-bottom: -0.5rem;
+        font-size: 1.5rem;
+        color: #222;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="section-center">
+      <!-- image -->
+      <article class="gift-img">
+        <img src="./image/bullet.webp" alt="gift" />
+      </article>
+      <!-- info -->
+      <article class="gift-info">
+        <h3>old Bullet-Bike giveaway</h3>
+        <h4 class="giveaway">giveaway ends on Sunday, 24 April 2020, 8:00am</h4>
+        <p>
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+          Reprehenderit molestiae cum libero atque ut voluptate qui consectetur
+          aliquid incidunt voluptatem quos, dolore, non commodi quaerat aliquam
+          eligendi, quisquam totam blanditiis.
+        </p>
+        <div class="deadline">
+          <!-- days -->
+          <div class="deadline-format">
+            <div>
+              <h4 class="days">34</h4>
+              <span>days</span>
+            </div>
+          </div>
+          <!-- end of days -->
+          <!-- days -->
+          <div class="deadline-format">
+            <div>
+              <h4 class="hours">34</h4>
+              <span>hours</span>
+            </div>
+          </div>
+          <!-- end of days -->
+          <!-- minutes -->
+          <div class="deadline-format">
+            <div>
+              <h4 class="minutes">34</h4>
+              <span>mins</span>
+            </div>
+          </div>
+          <!-- end of days -->
+          <!-- minutes -->
+          <div class="deadline-format">
+            <div>
+              <h4 class="seconds">34</h4>
+              <span>secs</span>
+            </div>
+          </div>
+          <!-- end of days -->
+        </div>
+      </article>
+    </section>
+    <!-- javascript -->
+    <script>
+      const giveaway = document.querySelector(".giveaway");
+      const deadline = document.querySelector(".deadline");
+      const items = document.querySelectorAll(".deadline-format h4");
+
+      const futureDate = new Date(2023, 12, 24, 8, 0, 0);
+
+      const futureTime = futureDate.getTime();
+
+      function format(item) {
+        if (item < 10) {
+          return `0${item}`;
+        }
+        return item;
+      }
+
+      function updateCountdown() {
+        const currentTime = new Date().getTime();
+
+        const diff = futureTime - currentTime;
+
+        const oneDay = 24 * 60 * 60 * 1000;
+        const oneHour = 60 * 60 * 1000;
+        const oneMinute = 60 * 1000;
+        const oneSecond = 1000;
+
+        let days = Math.floor(diff / oneDay);
+        let hours = Math.floor((diff % oneDay) / oneHour);
+        let minutes = Math.floor((diff % oneHour) / oneMinute);
+        let seconds = Math.floor((diff % oneMinute) / oneSecond);
+
+        days = format(days);
+        hours = format(hours);
+        minutes = format(minutes);
+        seconds = format(seconds);
+
+        const values = [days, hours, minutes, seconds];
+        items.forEach(function (item, index) {
+          item.textContent = values[index];
+        });
+
+        if (diff < 0) {
+          clearInterval(countdown);
+
+          deadline.innerHTML = `<h4 class="expired">sorry, this giveaway has expired</h4>`;
+        }
+      }
+
+      let countdown = setInterval(updateCountdown, 1000);
+
+      updateCountdown();
+    </script>
+  </body>
+</html>
